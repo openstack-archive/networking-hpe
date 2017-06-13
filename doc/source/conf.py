@@ -1,4 +1,9 @@
+<<<<<<< HEAD
+# Copyright (c) 2015 OpenStack Foundation
+#
+=======
 # -*- coding: utf-8 -*-
+>>>>>>> 7bea44e26ee8a400564a6a746d26293bb4bbf9cd
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
