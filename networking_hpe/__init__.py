@@ -12,8 +12,24 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+import gettext
+
+from debtcollector import removals
 import pbr.version
+import six
 
 
 __version__ = pbr.version.VersionInfo(
     'networking_hpe').version_string()
+
+
+if six.PY2:
+    gettext.install('networking_hpe', unicode=1)
+else:
+    gettext.install('networking_hpe')
+
+
+# flake8: noqa
+six.moves.builtins.__dict__['_'] = removals.remove(
+    message='Builtin _ translation function is deprecated in OpenStack; '
+            'use the function from _i18n module for your project.')(_)
