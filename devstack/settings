@@ -1,0 +1,20 @@
+# Devstack settings
+BNP_DIR=$DEST/networking-hpe
+BNP_ML2_CONF_HPE_FILE=/etc/neutron/plugins/ml2/ml2_conf_hpe.ini
+BNP_ENTRY_POINT_FILE=/opt/stack/neutron/neutron.egg-info/entry_points.txt
+NEUTRON_CONF_DIR=/etc/neutron/plugins/ml2
+HPE_MECHANISM_DRIVER=networking_hpe.ml2.mechanism_hpe:HPEMechanismDriver
+BNP_EXTENSION_DRIVER=networking_hpe.ml2.hpeironicextensiondriver:HPEIronicExtensionDriver
+BNP_CRED_EXT_DRIVER=networking_hpe.ml2.hpe_ironic_credential_ext_driver:HPEIronicCredentialExtDriver
+BNP_SWITCH_PORTS_EXT_DRIVER=networking_hpe.ml2.hpe_ironic_switch_ports_ext_driver:HPEIronicSwitchPortsExtDriver
+HPE_SNMP=hpe_snmp
+#
+# Each service you enable has the following meaning:
+# networking-hpe-plugin - Add this config flag to  enable bnp service plugin
+#
+# An example of enabling networking-hpe-plugin is below.
+# enable_service networking-hpe-plugin
+#
+# This can be overridden in the localrc file
+SNMP_TIMEOUT=${SNMP_TIMEOUT:-3}
+SNMP_RETRIES=${SNMP_RETRIES:-5}
