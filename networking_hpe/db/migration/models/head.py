@@ -1,5 +1,6 @@
-# -*- coding: utf-8 -*-
-
+# Copyright (c) 2015 OpenStack Foundation.
+# Copyright (c) 2015 Hewlett-Packard Development Company, L.P.
+#
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
 # a copy of the License at
@@ -12,17 +13,11 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-"""
-test_networking_hpe
-----------------------------------
+from neutron_lib.db import model_base
 
-Tests for `networking_hpe` module.
-"""
-
-from networking_hpe.tests import base
+from networking_hpe.db import bm_nw_provision_db  # noqa
+from networking_hpe.db import bm_nw_provision_models  # noqa
 
 
-class TestNetworking_hpe(base.TestCase):
-
-    def test_something(self):
-        pass
+def get_metadata():
+    return model_base.BASEV2.metadata
