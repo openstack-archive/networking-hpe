@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-
-# Copyright 2016 OpenStack Foundation
+#
+# Copyright (c) 2016 OpenStack Foundation
 # Copyright (c) 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
