@@ -27,9 +27,9 @@ import sys
 class CLITestV20ExtensionBNPSwitchJSON(test_cli20.CLITestV20Base):
 
     def setUp(self):
-        self._mock_extension_loading()
         super(CLITestV20ExtensionBNPSwitchJSON,
               self).setUp(plurals={'tags': 'tag'})
+        self._mock_extension_loading()
 
     def _create_patch(self, name, func=None):
         patcher = mock.patch(name)
