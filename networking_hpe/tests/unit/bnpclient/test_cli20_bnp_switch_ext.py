@@ -67,11 +67,12 @@ class CLITestV20ExtensionBNPSwitchJSON(test_cli20.CLITestV20Base):
             test_cli20.MyApp(sys.stdout), None)
         name = 'bnpSwitchName'
         ip_address = '10.0.0.1'
+        mac_address = 'aa:bb:cc:dd:ee:ff'
         vendor = 'hpe'
         myid = 'myid'
-        position_names = ['name', 'ip_address', 'vendor']
-        position_values = [name, ip_address, vendor]
-        args = [name, ip_address, vendor]
+        position_names = ['name', 'ip_address', 'mac_address', 'vendor']
+        position_values = [name, ip_address, mac_address, vendor]
+        args = [name, ip_address, mac_address, vendor]
         self._test_create_resource(
             resource, cmd, None, myid, args, position_names, position_values)
 
@@ -81,14 +82,16 @@ class CLITestV20ExtensionBNPSwitchJSON(test_cli20.CLITestV20Base):
             test_cli20.MyApp(sys.stdout), None)
         name = 'bnpSwitchName'
         ip_address = '10.0.0.1'
+        mac_address = 'aa:bb:cc:dd:ee:ff'
         vendor = 'hpe'
         myid = 'myid'
-        position_names = ['name', 'ip_address', 'vendor', 'family',
-                          'disc_proto', 'disc_creds', 'prov_proto',
+        position_names = ['name', 'ip_address', 'mac_address', 'vendor',
+                          'family', 'disc_proto', 'disc_creds', 'prov_proto',
                           'prov_creds']
-        position_values = [name, ip_address, vendor, '5900',
+        position_values = [name, ip_address, mac_address, vendor, '5900',
                            'snmpv1', 'credential1', 'snmpv2c', 'credential2']
-        args = [name, ip_address, vendor, '--family', '5900', '--disc-proto',
+        args = [name, ip_address, mac_address, vendor,
+                '--family', '5900', '--disc-proto',
                 'snmpv1', '--disc-creds', 'credential1', '--prov-proto',
                 'snmpv2c', '--prov-creds', 'credential2']
         self._test_create_resource(
@@ -98,61 +101,63 @@ class CLITestV20ExtensionBNPSwitchJSON(test_cli20.CLITestV20Base):
         resource = 'bnp_switch'
         cmd = bnp_switch.BnpSwitchUpdate(test_cli20.MyApp(sys.stdout), None)
         myid = 'myid'
-        args = ['--disc-proto', 'disc_pro', '--disc-creds', 'fake_cred', myid]
+        args = [myid, '--disc-proto', 'disc_pro', '--disc-creds', 'fake_cred']
         updatefields = {'disc_proto': 'disc_pro',
-                        'disc_creds': 'fake_cred', 'rediscover': False}
+                        'disc_creds': 'fake_cred', 'validate': False}
         self._test_update_resource(resource, cmd, myid, args, updatefields)
 
     def test_update_bnp_switch_disc_proto_creds_with_discover(self):
         resource = 'bnp_switch'
         cmd = bnp_switch.BnpSwitchUpdate(test_cli20.MyApp(sys.stdout), None)
         myid = 'myid'
-        args = ['--disc-proto', 'disc_proto', '--disc-creds',
-                'fake_cred', '--rediscover', myid]
+        args = [myid, '--disc-proto', 'disc_proto', '--disc-creds',
+                'fake_cred', '--rediscover']
         updatefields = {'disc_proto': 'disc_proto',
-                        'disc_creds': 'fake_cred', 'rediscover': True}
+                        'disc_creds': 'fake_cred', 'rediscover': True,
+                        'validate': False}
         self._test_update_resource(resource, cmd, myid, args, updatefields)
 
     def test_update_bnp_switch_prov_proto_creds_without_discover(self):
         resource = 'bnp_switch'
         cmd = bnp_switch.BnpSwitchUpdate(test_cli20.MyApp(sys.stdout), None)
         myid = 'myid'
-        args = ['--prov-proto', 'prov_proto',
-                '--prov-creds', 'fake_cred', myid]
+        args = [myid, '--prov-proto', 'prov_proto',
+                '--prov-creds', 'fake_cred']
         updatefields = {'prov_proto': 'prov_proto',
-                        'prov_creds': 'fake_cred', 'rediscover': False}
+                        'prov_creds': 'fake_cred', 'validate': False}
         self._test_update_resource(resource, cmd, myid, args, updatefields)
 
     def test_update_bnp_switch_prov_proto_creds_with_discover(self):
         resource = 'bnp_switch'
         cmd = bnp_switch.BnpSwitchUpdate(test_cli20.MyApp(sys.stdout), None)
         myid = 'myid'
-        args = ['--prov-proto', 'prov_proto', '--prov-creds',
-                'fake_cred', '--rediscover', myid]
+        args = [myid, '--prov-proto', 'prov_proto', '--prov-creds',
+                'fake_cred', '--rediscover']
         updatefields = {'prov_proto': 'prov_proto',
-                        'prov_creds': 'fake_cred', 'rediscover': True}
+                        'prov_creds': 'fake_cred', 'rediscover': True,
+                        'validate': False}
         self._test_update_resource(resource, cmd, myid, args, updatefields)
 
     def test_update_bnp_switch_prov_proto_creds_enable_without_discover(self):
         resource = 'bnp_switch'
         cmd = bnp_switch.BnpSwitchUpdate(test_cli20.MyApp(sys.stdout), None)
         myid = 'myid'
-        args = ['--prov-proto', 'prov_proto', '--prov-creds',
-                'fake_cred', '--enable', 'True', myid]
+        args = [myid, '--prov-proto', 'prov_proto', '--prov-creds',
+                'fake_cred', '--enable', 'True']
         updatefields = {'prov_proto': 'prov_proto',
                         'prov_creds': 'fake_cred', 'enable': 'True',
-                        'rediscover': False}
+                        'validate': False}
         self._test_update_resource(resource, cmd, myid, args, updatefields)
 
     def test_update_bnp_switch_prov_proto_creds_enable_with_discover(self):
         resource = 'bnp_switch'
         cmd = bnp_switch.BnpSwitchUpdate(test_cli20.MyApp(sys.stdout), None)
         myid = 'myid'
-        args = ['--prov-proto', 'prov_proto', '--prov-creds',
-                'fake_cred', '--enable', 'False', '--rediscover', myid]
+        args = [myid, '--prov-proto', 'prov_proto', '--prov-creds',
+                'fake_cred', '--enable', 'False', '--rediscover']
         updatefields = {'prov_proto': 'prov_proto',
                         'prov_creds': 'fake_cred', 'enable': 'False',
-                        'rediscover': True}
+                        'rediscover': True, 'validate': False}
         self._test_update_resource(resource, cmd, myid, args, updatefields)
 
     def test_list_bnp_switches(self):
