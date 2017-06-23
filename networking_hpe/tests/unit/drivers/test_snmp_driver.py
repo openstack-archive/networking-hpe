@@ -116,7 +116,7 @@ class TestSnmpDriver(base.BaseTestCase):
         seg_id = 1001
         egrs_oid = hp_const.OID_VLAN_EGRESS_PORT + '.' + str(seg_id)
         varbinds = [(rfc1902.ObjectName('1.3.6.1.2.1.17.7.1.4.3.1.2.1001'),
-                     rfc1902.OctetString('\x80'))]
+                     rfc1902.OctetString(hexValue='80'))]
         with mock.patch.object(snmp_client.SNMPClient, 'get',
                                return_value=varbinds):
             egbytes = self.driver._get_device_nibble_map(self.client, egrs_oid)
