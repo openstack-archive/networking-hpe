@@ -18,8 +18,9 @@ neutron_installed=$(echo "import neutron" | python 2>/dev/null ; echo $?)
 BRANCH_NAME=master
 set -ex
 
-install_cmd="pip install"
+install_cmd="pip install -c$1"
 cwd=$(/bin/pwd)
+shift
 
 if [ $neutron_installed -eq 0 ]; then
     echo "ALREADY INSTALLED" > /tmp/tox_install.txt
