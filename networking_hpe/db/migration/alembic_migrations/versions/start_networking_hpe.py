@@ -14,13 +14,13 @@
 #
 
 """start bm nw provisioning chain
-Revision ID: start_bm_nw_provisioning
+Revision ID: start_networking_hpe
 Revises: None
 Create Date: 2015-07-06 00:25:06.980102
 """
 
 # revision identifiers, used by Alembic.
-revision = 'start_bm_nw_provisioning'
+revision = 'start_networking_hpe'
 down_revision = None
 
 
