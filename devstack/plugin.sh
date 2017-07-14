@@ -37,7 +37,7 @@ function configure_bnp_plugin {
 
 
 # main loop
-if is_service_enabled bnp-plugin; then
+if is_service_enabled networking-hpe-plugin; then
     if [[ "$1" == "source" ]]; then
         # no-op
         :
