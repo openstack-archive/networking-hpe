@@ -9,7 +9,7 @@ Enabling Networking-hpe Baremetal Network Provisioning in Devstack
     > cat local.conf
     [[local|localrc]]
     enable_plugin networking-hpe https://git.openstack.org/openstack/networking-hpe
-    enable_service bnp-plugin
+    enable_service networking-hpe-plugin
 
 3. Add the following required flag in local.conf to enable BNP ML2 MechanismDriver::
 
