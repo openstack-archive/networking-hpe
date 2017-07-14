@@ -19,6 +19,7 @@ from oslo_log import log as logging
 from oslo_utils import uuidutils
 import webob.exc
 
+from neutron.api import extensions
 from neutron.api.v2 import base
 from neutron.api.v2 import resource
 from neutron import wsgi
@@ -360,7 +361,7 @@ class Bnp_switch(nl_extensions.ExtensionDescriptor):
         exts = []
         controller = resource.Resource(BNPSwitchController(),
                                        base.FAULT_MAP)
-        exts.append(nl_extensions.ResourceExtension(
+        exts.append(extensions.ResourceExtension(
             'bnp-switches', controller))
         return exts
 
