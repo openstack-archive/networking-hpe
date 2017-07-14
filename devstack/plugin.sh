@@ -11,6 +11,7 @@
 
 XTRACE=$(set +o | grep xtrace)
 set +o xtrace
+source $TOP_DIR/lib/neutron-legacy
 
 function install_bnp {
    setup_develop $BNP_DIR
@@ -26,6 +27,7 @@ function configure_bnp_plugin {
        sudo chown -R $STACK_USER:root /etc/neutron
     fi
     cp $BNP_DIR/etc/ml2_conf_hpe.ini $BNP_ML2_CONF_HPE_FILE
+    neutron_server_config_add $BNP_ML2_CONF_HPE_FILE
     iniset $BNP_ML2_CONF_HPE_FILE default snmp_timeout $SNMP_TIMEOUT
     iniset $BNP_ML2_CONF_HPE_FILE default snmp_retries $SNMP_RETRIES
     iniadd $BNP_ML2_CONF_HPE_FILE ml2_hpe provisioning_driver $HPE_SNMP
@@ -37,16 +39,16 @@ function configure_bnp_plugin {
 
 
 # main loop
-if is_service_enabled bnp-plugin; then
-    if [[ "$1" == "source" ]]; then
+if is_service_enabled networking-hpe-plugin; then
+    if [[ "$1" == "stack" && "$2" == "pre-install" ]]; then
         # no-op
         :
     elif [[ "$1" == "stack" && "$2" == "install" ]]; then
         install_bnp
-        configure_bnp_plugin
     elif [[ "$1" == "stack" && "$2" == "post-config" ]]; then
+        configure_bnp_plugin
         run_bnp_alembic_migration
-    elif [[ "$1" == "stack" && "$2" == "post-extra" ]]; then
+    elif [[ "$1" == "stack" && "$2" == "extra" ]]; then
         # no-op
         :
     fi
