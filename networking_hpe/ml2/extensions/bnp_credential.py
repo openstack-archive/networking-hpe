@@ -13,12 +13,13 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-from neutron_lib.api import extensions
+from neutron_lib.api import extensions as nl_extensions
 from neutron_lib.api import validators as nl_validators
 from oslo_log import log as logging
 from oslo_utils import uuidutils
 import webob.exc
 
+from neutron.api import extensions
 from neutron.api.v2 import base
 from neutron.api.v2 import resource
 from neutron import wsgi
@@ -316,7 +317,7 @@ class BNPCredentialController(wsgi.Controller):
             return creds_dict
 
 
-class Bnp_credential(extensions.ExtensionDescriptor):
+class Bnp_credential(nl_extensions.ExtensionDescriptor):
 
     """API extension for Baremetal Switch Credential support."""
 
