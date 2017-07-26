@@ -14,8 +14,16 @@
 # pip install {opts} {packages}
 
 ZUUL_CLONER=/usr/zuul-env/bin/zuul-cloner
+UPPER_CONSTRAINTS_FILE=${UPPER_CONSTRAINTS_FILE:-unconstrained}
+
 neutron_installed=$(echo "import neutron" | python 2>/dev/null ; echo $?)
 BRANCH_NAME=master
+install_cmd="pip install"
+
+if [ "$UPPER_CONSTRAINTS_FILE" != "unconstrained" ]; then
+    install_cmd="$install_cmd -c$UPPER_CONSTRAINTS_FILE"
+fi
+
 set -ex
 
 install_cmd="pip install -c$1"
@@ -39,6 +47,7 @@ elif [ -x "$ZUUL_CLONER" ]; then
 else
     echo "PIP HARDCODE" > /tmp/tox_install.txt
     $install_cmd -U -egit+https://git.openstack.org/openstack/neutron@$BRANCH_NAME#egg=neutron
+    $install_cmd -U -e $VIRTUAL_ENV/src/neutron
 fi
 
 $install_cmd -U $*
