@@ -31,27 +31,20 @@ import sys
 class CLITestV20ExtensionBNPCredentialJSON(test_cli20.CLITestV20Base):
 
     def setUp(self):
+        self._mock_extension_loading()
         super(CLITestV20ExtensionBNPCredentialJSON,
               self).setUp(plurals={'tags': 'tag'})
-        self._mock_extension_loading()
-
-    def _create_patch(self, name, func=None):
-        patcher = mock.patch(name)
-        thing = patcher.start()
-        self.addCleanup(patcher.stop)
-        return thing
 
     def _mock_extension_loading(self):
         ext_pkg = ('networking_hpe.bnpclient.bnp_client_ext'
                    '.shell')
-        contrib = self._create_patch(ext_pkg + '.discover_via_entry_points')
-        contrib.return_value = [("_bnp_credential",
-                                 bnp_credential)]
+        contrib = mock.patch(ext_pkg + '.discover_via_entry_points').start()
+        contrib.return_value = [("_bnp_credential", bnp_credential)]
         return contrib
 
     def test_ext_cmd_loaded(self):
         """Tests bnpcredential commands loaded."""
-        shell.BnpShell('2.0')
+        bnp_shell = shell.BnpShell('2.0')
         ext_cmd = {
             'credential-list':
             bnp_credential.BnpCredentialList,
@@ -63,7 +56,9 @@ class CLITestV20ExtensionBNPCredentialJSON(test_cli20.CLITestV20Base):
             bnp_credential.BnpCredentialShow,
             'credential-update':
             bnp_credential.BnpCredentialUpdate}
-        self.assertDictContainsSubset(ext_cmd, shell.COMMANDS['2.0'])
+        for cmd_name, cmd_class in ext_cmd.items():
+            found = bnp_shell.command_manager.find_command([cmd_name])
+            self.assertEqual(cmd_class, found[0])
 
     def test_create_bnp_credential_snmpv1(self):
         resource = 'bnp_credential'

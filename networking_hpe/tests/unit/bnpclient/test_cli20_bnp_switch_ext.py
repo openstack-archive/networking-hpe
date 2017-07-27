@@ -27,27 +27,19 @@ import sys
 class CLITestV20ExtensionBNPSwitchJSON(test_cli20.CLITestV20Base):
 
     def setUp(self):
+        self._mock_extension_loading()
         super(CLITestV20ExtensionBNPSwitchJSON,
               self).setUp(plurals={'tags': 'tag'})
-        self._mock_extension_loading()
-
-    def _create_patch(self, name, func=None):
-        patcher = mock.patch(name)
-        thing = patcher.start()
-        self.addCleanup(patcher.stop)
-        return thing
 
     def _mock_extension_loading(self):
-        ext_pkg = ('networking_hpe.bnpclient.bnp_client_ext'
-                   '.shell')
-        contrib = self._create_patch(ext_pkg + '.discover_via_entry_points')
-        contrib.return_value = [("_bnp_switch",
-                                 bnp_switch)]
+        ext_pkg = ('networking_hpe.bnpclient.bnp_client_ext.shell')
+        contrib = mock.patch(ext_pkg + '.discover_via_entry_points').start()
+        contrib.return_value = [("_bnp_switch", bnp_switch)]
         return contrib
 
     def test_ext_cmd_loaded(self):
         """Tests bnpswitch commands loaded."""
-        shell.BnpShell('2.0')
+        bnp_shell = shell.BnpShell('2.0')
         ext_cmd = {
             'switch-list':
             bnp_switch.BnpSwitchList,
@@ -59,7 +51,9 @@ class CLITestV20ExtensionBNPSwitchJSON(test_cli20.CLITestV20Base):
             bnp_switch.BnpSwitchShow,
             'switch-update':
             bnp_switch.BnpSwitchUpdate}
-        self.assertDictContainsSubset(ext_cmd, shell.COMMANDS['2.0'])
+        for cmd_name, cmd_class in ext_cmd.items():
+            found = bnp_shell.command_manager.find_command([cmd_name])
+            self.assertEqual(cmd_class, found[0])
 
     def test_create_bnp_switch(self):
         resource = 'bnp_switch'
