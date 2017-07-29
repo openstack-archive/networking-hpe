@@ -1,0 +1,8 @@
+Code-Review+2: stephen-ma <sma@suse.com>
+Workflow+1: stephen-ma <sma@suse.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Sat, 29 Jul 2017 04:58:13 +0000
+Reviewed-on: https://review.openstack.org/482124
+Project: openstack/networking-hpe
+Branch: refs/heads/master
