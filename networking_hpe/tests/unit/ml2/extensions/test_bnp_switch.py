@@ -17,7 +17,7 @@
 from neutron.api import extensions
 from neutron.common import config
 import neutron.extensions
-from neutron.plugins.ml2 import config as ml2_config
+from neutron.conf.plugins.ml2 import config as ml2_config
 from neutron.tests.unit.api.v2 import test_base
 from neutron.tests.unit.db import test_db_base_plugin_v2 as test_plugin
 from neutron.tests.unit import testlib_api
