@@ -24,7 +24,6 @@ from sqlalchemy import event
 
 from networking_hpe.db.migration.models import head  # noqa
 
-
 MYSQL_ENGINE = None
 BM_NW_PROVISION_VERSION_TABLE = 'bm_nw_provision_alembic_version'
 config = context.config
@@ -68,22 +67,24 @@ def set_storage_engine(target, parent):
 
 def run_migrations_online():
     set_mysql_engine()
-    engine = session.create_engine(neutron_config.database.connection)
+    engine = session.create_engine(
+              sql_connection=neutron_config.database.connection,
+              mysql_enable_ndb=neutron_config.database.mysql_enable_ndb)
 
-    connection = engine.connect()
-    context.configure(
-        connection=connection,
-        target_metadata=target_metadata,
-        # include_object=include_object,
-        version_table=BM_NW_PROVISION_VERSION_TABLE
-    )
+    with engine.connect() as connection:
+        context.configure(
+            connection=connection,
+            target_metadata=target_metadata,
+            # include_object=include_object,
+            version_table=BM_NW_PROVISION_VERSION_TABLE
+        )
 
-    try:
-        with context.begin_transaction():
-            context.run_migrations()
-    finally:
-        connection.close()
-        engine.dispose()
+        try:
+            with context.begin_transaction():
+                context.run_migrations()
+        finally:
+            connection.close()
+            engine.dispose()
 
 
 if context.is_offline_mode():
